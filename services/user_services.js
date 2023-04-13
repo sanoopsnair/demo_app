@@ -12,6 +12,11 @@ const getUserList = () => {
   return Users.findAll(query)
 }
 
+const fetchUser = (data) => {
+  return Users.create(data)
+}
+
 module.exports = {
-  getUserList
+  getUserList,
+  fetchUser
 }
