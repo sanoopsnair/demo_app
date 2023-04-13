@@ -1,5 +1,6 @@
 const {
-  getUserList
+  getUserList,
+  fetchUser
 } = require('../../services/user_services')
 
 // Static API Call
@@ -20,10 +21,35 @@ const userDynamicListing = async (req, res) => {
     .catch(e => res.send({"error": "error occured while rendering handlePopular", details: e}))
 }
 
+const createUser = async (req, res) => {
+
+    // Validate request
+    if (!req.body.name) {
+        res.status(400).send({ message: "Name missing!"});
+        return;
+    } else if(!req.body.age){
+        res.status(400).send({ message: "Age Missing!"});
+        return;
+    }else if(!req.body.mobileNumber){
+        res.status(400).send({ message: "Mobile Number Missing!"});
+        return;
+    }
+    
+    const user_data = {
+                          name: req.body.name, 
+                          age: req.body.age,
+                          mobileNumber: req.body.mobileNumber
+                         };
+    return fetchUser(user_data)
+    .then(data => res.send({'status': 'success', 'data':data, 'error': false}))
+    .catch(e => res.send({"error": "error occured while rendering handlePopular", details: e}))
+}
+
 module.exports = {
   handleListing,
   userListing,
   userDynamicListing,
+  createUser
 } 
 
 
